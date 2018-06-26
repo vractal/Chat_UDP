@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>{{ room }}</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="{% static "css/style.css"  %}">
+
+
+</head>
+
+<body>
+
+    <div class="container clearfix">
+
+
+
+    <div class="people-list" id="people-list">
+      <!--<div class="search">
+        <input type="text" placeholder="search" />
+        <i class="fa fa-search"></i>
+      </div>-->
+
+      <ul class="list">
+
+        {% for person in participants %}
+        <li class="clearfix">
+          <div class="about">
+            <div class="status">
+              <i class="fa fa-circle online" title="{{ person.ip }}"></i>
+            </div>
+            <div class="name">{{ person.username }}</div>
+          </div>
+        </li>
+        {% endfor %}
+
+      </ul>
+    </div>
+
+    <div class="chat">
+        
+      <div class="chat-header clearfix">
+
+        <div class="chat-about">
+
+          <div class="chat-with">{{ room }}</div>
+
+          <div class="chat-num-messages">{{ room.my_username  }}</div>
+        </div>
+        <i class="fa fa-circle online" title="online"></i>
+      </div> <!-- end chat-header -->
+
+      <div id="chat-history" class="chat-history">
+        <ul>
+
+          {% for message in messages %}
+          <li class="clearfix">
+            <div class="message-data align-right">
+              <span class="message-data-time" >{{ message.datetime }}</span> &nbsp; &nbsp;
+              <span class="message-data-name" >{{ message.user }}</span>
+
+            </div>
+            <div class="message other-message float-right">
+              {{ message.text }}
+            </div>
+          </li>
+            {% endfor %}
+
+{##}
+{#          <li>#}
+{#            <div class="message-data">#}
+{#              <span class="message-data-name">Júlio</span>#}
+{#              <span class="message-data-time">10:12 AM, Today</span>#}
+{#            </div>#}
+{#            <div class="message my-message">#}
+{#              Eu vou... Pode ser no bar?#}
+{#            </div>#}
+{#          </li>#}
+
+        </ul>
+
+      </div> <!-- end chat-history -->
+
+      <div class="chat-message clearfix">
+         <form action="/room" method="POST">
+             {% csrf_token %}
+             <textarea name="message-to-send" id="message-to-send" placeholder ="Escreva sua mensagem aqui" rows="3"></textarea>
+
+             <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+             <i class="fa fa-file-image-o"></i>
+
+             <button type="submit">Enviar</button>
+
+         </form>
+
+      </div> <!-- end chat-message -->
+
+    </div> <!-- end chat -->
+
+
+  </div> <!-- end container -->
+{##}
+{#<script id="message-template" type="text/x-handlebars-template">#}
+{#  <li class="clearfix">#}
+{#    <div class="message-data align-right">#}
+{#      <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;#}
+{#      <span class="message-data-name" >Caio</span> <i class="fa fa-circle me"></i>#}
+{#    </div>#}
+{#    <div class="message other-message float-right">#}
+{#      {{messageOutput}}#}
+{#    </div>#}
+{#  </li>#}
+{#</script>#}
+{##}
+{#<script id="message-response-template" type="text/x-handlebars-template">#}
+{#  <li>#}
+{#    <div class="message-data">#}
+{#      <span class="message-data-name"><i class="fa fa-circle online"></i> Julio</span>#}
+{#      <span class="message-data-time">{{time}}, Today</span>#}
+{#    </div>#}
+{#    <div class="message my-message">#}
+{#      {{response}}#}
+{#    </div>#}
+{#  </li>#}
+{#</script>#}
+
+
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+        crossorigin="anonymous">
+   $(function() {
+
+        var element = document.getElementById("#chat-history");
+        element.scrollTop = element.scrollHeight;
+    })
+  </script>
+{#<script src='http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js'></script>#}
+{#<script src='http://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js'></script>#}
+{##}
+{#    <script src="js/index.js"></script>#}
+
+</body>
+</html>

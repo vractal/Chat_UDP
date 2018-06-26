@@ -2,11 +2,12 @@ from uuid import uuid4
 from django.db import models
 
 
+
 class Room(models.Model):
     room_name = models.CharField(max_length=300)
     my_username = models.CharField(max_length=300)
     room_password = models.CharField(max_length=300)
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.room_name
@@ -15,7 +16,7 @@ class Room(models.Model):
 class Participant(models.Model):
     username = models.CharField(max_length=300)
     ip = models.CharField(max_length=46)
-    is_online = models.BooleanField()
+    is_online = models.BooleanField(default=True)
     last_activity = models.DateTimeField(auto_now=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
@@ -23,9 +24,11 @@ class Participant(models.Model):
         return self.username
 
 
+
+
 class Message(models.Model):
     uuid = models.UUIDField(null=False, default=uuid4)
-    datetime = models.DateTimeField(null=False)
+    datetime = models.DateTimeField(null=False, default=timezone.now)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     text = models.TextField()
     refer_message = models.UUIDField(null=True)

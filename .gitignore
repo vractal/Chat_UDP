@@ -99,3 +99,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+.chat_udp/
+.ropeproject/
+chatudp(old)/
+chat_udp/
+modelo_chat_UDP/
+.idea/
